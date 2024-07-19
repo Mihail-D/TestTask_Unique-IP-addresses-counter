@@ -17,9 +17,9 @@ public class IpCounterApp {
 
         long usedMemoryAfter = runtime.totalMemory() - runtime.freeMemory();
 
-        System.out.println("Использовано памяти: " + (usedMemoryAfter - usedMemoryBefore) + " байт");
+        double memoryUsedInMegabytes = (double) (usedMemoryAfter - usedMemoryBefore) / (1024 * 1024);
+
+        System.out.println("Использовано памяти: " + String.format("%.2f", memoryUsedInMegabytes) + " Мегабайт");
         System.out.println("Время выполнения: " + (endTime - startTime) + " миллисекунд");
-
     }
-
 }

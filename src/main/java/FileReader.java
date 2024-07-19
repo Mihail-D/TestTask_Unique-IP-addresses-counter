@@ -2,9 +2,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class FileReader {
 
+    private static final Logger LOGGER = Logger.getLogger(FileReader.class.getName());
     private static final String FILE_PATH = "./src/main/resources/ip.txt";
     Map<String, Integer> ipCountMap = new HashMap<>();
     Runtime runtime = Runtime.getRuntime();
@@ -16,15 +19,16 @@ public class FileReader {
         try (BufferedReader reader = new BufferedReader(new java.io.FileReader(FILE_PATH))) {
             String line;
             while ((line = reader.readLine()) != null) {
+                Validator.validateLine(line);
                 ipCountMap.put(line, ipCountMap.getOrDefault(line, 0) + 1);
                 linesRead++;
 
                 if (linesRead % linesThreshold == 0) {
-                    runtime.gc(); // Предложить JVM выполнить сборку мусора
+                    runtime.gc();
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "An exception occurred while reading the file", e);
         }
 
         for (Integer i : ipCountMap.values()) {
