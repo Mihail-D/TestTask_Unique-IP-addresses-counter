@@ -1,7 +1,8 @@
 public class IpCounterApp {
 
     public static void main(String[] args) {
-        FileReader fileReader = new FileReader();
+        final String FILE_PATH = "./src/main/resources/ip.txt";
+        FileReader fileReader = new FileReader(FILE_PATH);
 
         Runtime runtime = Runtime.getRuntime();
 

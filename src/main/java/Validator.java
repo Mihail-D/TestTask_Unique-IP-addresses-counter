@@ -1,3 +1,4 @@
+import java.io.File;
 import java.util.regex.Pattern;
 
 public class Validator {
@@ -7,8 +8,13 @@ public class Validator {
 
     public static void validateLine(String line) throws IllegalArgumentException {
         if (!IP_ADDRESS_PATTERN.matcher(line).matches()) {
-            throw new IllegalArgumentException("The provided string " + line + " does not match the IP address " +
-                    "pattern.");
+            throw new IllegalArgumentException("Представленная строка " + line + " не является IP адресом");
+        }
+    }
+
+    public static void validateFilePath(String filePath) throws IllegalArgumentException {
+        if (filePath == null || !new File(filePath).exists() ) {
+            throw new IllegalArgumentException("Файл по указанному пути не найден");
         }
     }
 }

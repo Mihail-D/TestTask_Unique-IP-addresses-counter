@@ -8,15 +8,21 @@ import java.util.logging.Logger;
 public class FileReader {
 
     private static final Logger LOGGER = Logger.getLogger(FileReader.class.getName());
-    private static final String FILE_PATH = "./src/main/resources/ip.txt";
+    private final String filePath;
     Map<String, Integer> ipCountMap = new HashMap<>();
     Runtime runtime = Runtime.getRuntime();
     int linesRead = 0;
     final int linesThreshold = 10000;
     int uniqueIpCount = 0;
 
+    public FileReader(String filePath) {
+        this.filePath = filePath;
+    }
+
     public void readLinesFromFile() {
-        try (BufferedReader reader = new BufferedReader(new java.io.FileReader(FILE_PATH))) {
+        Validator.validateFilePath(this.filePath);
+
+        try (BufferedReader reader = new BufferedReader(new java.io.FileReader(this.filePath))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 Validator.validateLine(line);
@@ -28,7 +34,7 @@ public class FileReader {
                 }
             }
         } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "An exception occurred while reading the file", e);
+            LOGGER.log(Level.SEVERE, "Возникло исключение при чтении файла", e);
         }
 
         for (Integer i : ipCountMap.values()) {
